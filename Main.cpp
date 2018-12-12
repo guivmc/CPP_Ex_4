@@ -9,6 +9,21 @@
 #include <map>
 #include <algorithm>
 
+int findSmallestInVector(int num, int pos, std::vector<int> vec)
+{
+	if (pos >= vec.size()) return num;
+
+	if (num >= vec.at(pos))
+	{
+		num = vec.at(pos);
+
+		return findSmallestInVector(num, (pos + 1), vec);
+	}
+	else
+	{
+		return num;
+	}
+}
 
 void test(int size, int now)
 {
@@ -16,10 +31,10 @@ void test(int size, int now)
 
 	std::vector<std::string> myListNames;
 	std::vector<int> myListGrades;
-	std::vector<int> Aux(size);
 
-	int small = INT_MAX, pos = 0, aux = 0;
+	int smallest, pos = 0;
 
+	//populate
 	for (int i = 0; i < size; i++)
 	{
 		std::string name;
@@ -34,53 +49,23 @@ void test(int size, int now)
 		myListGrades.push_back(grade);
 	}
 
+	smallest = findSmallestInVector(INT_MAX, 0, myListGrades);
+
 	for (int i = 0; i < size; i++)
-	{
-		if (small > myListGrades.at(i))
-		{
-			small = myListGrades.at(i);
+		if (smallest == myListGrades.at(i))
 			pos = i;
-		}
-	}
 
-	for (int i = 0; i < size; i++)
-	{
-		if (small == myListGrades[i])
-		{
-			Aux.at(aux++) = i;
-		}
-	}
 
-	if (aux > 1)
-	{
-		char theChar = myListNames.at(pos).at(0);
-
-		std::cout << theChar;
-
-		for (int i = 0; i < aux; i++)
-		{
-			if (theChar < myListNames.at(Aux.at(i)).at(0)) 
-			{
-				theChar = myListNames.at(Aux.at(i)).at(0);
-				pos = Aux.at(i);
-			}
-		}
-	}
-
-	if (size != 0)
-	{
-		std::cout << "Instance: ";
-		std::cout << now << std::endl;
-		std::cout << "Failed: " + myListNames.at(pos) << std::endl;
-	}
-
+	std::cout << "Instance: ";
+	std::cout << now << std::endl;
+	std::cout << "Failed: " + myListNames.at(pos) << std::endl;
 }
 
 int main()
 {
 	int size = 1, now = 1;
 
-	while (size > 0)
+	while (size != 0)
 	{
 		std::cin >> size;
 
